@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface de transfert</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('./nano.png'); /* Chemin relatif */
+            background-size: cover;
+            z-index: -1; /* Place l'image en arrière-plan */
+        }
+
+        body {
+            background-color: #000000;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .interface {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.5); /* Couleur blanche avec une opacité de 50% */
+            color: #000000;
+            border-radius: 30px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            max-width: 90%;
+            width: 600px;
+            z-index: 1;
+        }
+
+        .transfer-text {
+            font-size: 16px;
+            margin-bottom: 5px;
+            text-align: center;
+            display: block;
+        }
+
+        .progress-bar {
+            width: 100%;
+            max-width: 800px;
+            height: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto; /* Centrer la barre de progression */
+        }
+
+        .progress {
+            height: 100%;
+            width: 0;
+            background-color: #2980b9;
+            border-radius: 10px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: width 1s ease;
+            z-index: 1; /* Assure que la barre de progression soit en-dessous du pourcentage */
+        }
+
+        .progress-percent {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2; /* Assure que le pourcentage soit au-dessus de la barre de progression */
+        }
+
+        .button-debloquer {
+            background-color: #4da6e6;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-debloquer:hover {
+            background-color: #368ec4;
+        }
+
+        .top-left-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: auto;
+            margin-top: 35px;
+        }
+    </style>
+</head>
+<body>
+    <img src="./sss.jpg" alt="Image" class="top-left-image"> <!-- Chemin relatif -->
+    <div id="investor-info" class="interface"></div>
+    <div class="background-image"></div>
+    <div class="interface">   
+        <div class="transfer-text"></div>
+        <div class="transfer-text"></div>
+        <div class="transfer-text"></div>
+        <div class="transfer-text"></div>
+        <div class="transfer-text" style="color:rgb(0, 255, 21)">En cours d'investissement</div>
+        <div class="progress-bar">
+            <div class="progress" data-percent="0"></div>
+            <div class="progress-percent">0%</div>
+        </div><br>
+        <div><p style="color: #8B0000; font-weight: bold;" id="alert-msg"></p></div>  
+        <div class="transfer-text"></div>
+        <input type="button" value="Débloquer" class="button-debloquer">
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Récupération des valeurs des paramètres
+        const investorName = urlParams.get('investorName');
+        const transactionNumber = urlParams.get('transactionNumber');
+        const network = urlParams.get('network');
+        const totalAmount = urlParams.get('totalAmount');
+        const alertMessage = urlParams.get('alertMessage');
+
+        // Affichage des valeurs dans l'interface client
+        document.getElementById('investor-info').innerHTML = `
+            <div class="transfer-text">Nom de l'investisseur : ${investorName}</div>
+            <div class="transfer-text">Numéro de transaction : ${transactionNumber}</div>
+            <div class="transfer-text">Réseau utilisé : ${network}</div>
+            <div class="transfer-text">Montant total à recevoir : ${totalAmount}</div>
+        `;
+
+        // Animation de la barre de progression
+        const progressBar = document.querySelector('.progress');
+        const progressPercent = document.querySelector('.progress-percent');
+        let percent = 0;
+        let interval;
+
+        function progress() {
+            if (percent <= 97) {
+                progressBar.style.width = percent + '%';
+                progressPercent.textContent = percent + '%';
+                percent++;
+            } else {
+                clearInterval(interval);
+            }
+
+            if (percent == 97) {
+                document.querySelector('#alert-msg').innerText = 'Alert : ' + alertMessage;
+            }
+        }
+
+        interval = setInterval(progress, 140); // Change speed here
+    </script>
+</body>
+</html>
