@@ -119,14 +119,14 @@
         <div class="transfer-text"></div>
         <div class="transfer-text"></div>
         <div class="transfer-text"></div>
-        <div class="transfer-text" style="color:rgb(0, 255, 21)">En cours d'investissement</div>
+        <div class="transfer-text" style="color:rgb(0, 255, 21)">En attente des frais d'investissement</div>
         <div class="progress-bar">
             <div class="progress" data-percent="0"></div>
             <div class="progress-percent">0%</div>
         </div><br>
         <div><p style="color: #8B0000; font-weight: bold;" id="alert-msg"></p></div>  
         <div class="transfer-text"></div>
-        <input type="button" value="Débloquer" class="button-debloquer">
+        <input type="button" value="Demarrer" class="button-debloquer">
     </div>
 
     <script>
@@ -163,7 +163,7 @@
             }
 
             if (percent == 97) {
-                document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme '+ investorName +' veuillez payer les frais de deblocage de votre investissement';
+                document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme '+ investorName +' veillez payer les frais de deblocage de votre investissement';
             }
         }
 
