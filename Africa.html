@@ -154,7 +154,7 @@
         let interval;
 
         function progress() {
-            if (percent <= 97) {
+            if (percent <= 0) {
                 progressBar.style.width = percent + '%';
                 progressPercent.textContent = percent + '%';
                 percent++;
