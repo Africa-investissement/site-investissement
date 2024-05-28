@@ -24,17 +24,20 @@
             color: #000000;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            margin: 20px;
         }
 
-        /* .form-container input[type="text"], */
+        .form-container input[type="text"],
         .form-container input[type="submit"],
+        .form-container select,
         .form-container textarea {
             margin: 10px 0;
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
             width: 100%;
-            max-width: 300px;
         }
 
         .form-container input[type="submit"] {
@@ -51,81 +54,72 @@
 </head>
 <body>
     <div class="form-container">
-        <h2>Africa investissement</h2>
+        <h2>Africa Investissement</h2>
         <form id="registration-form" action="Africa.html" method="GET">
-    <input required class="form-control" type="text" id="form-investor-name" name="investorName" placeholder="Nom de l'investisseur"><br>
-    <input required class="form-control" type="text" id="form-transaction-number" name="transactionNumber" placeholder="Numéro de transaction"><br>
-    <select required name="network" id="formNetwork" class="form-select mb-2">
-        <option value="">---Choisir le réseau---</option>
-        <option value="ORANGEMONEY">ORANGEMONEY</option>
-        <option value="MTN">MTN</option>
-    </select>
-    <select required name="montantInvest" id="montantInvest" class="form-select mb-2">
-        <option value="">---Choisir le montant---</option>
-        <option value="1000000">1 000 000 FG</option>
-        <option value="2000000">2 000 000 FG</option>
-        <option value="3000000">3 000 000 FG</option>
-        <option value="4000000">4 000 000 FG</option>
-        <option value="5000000">5 000 000 FG</option>
-        <option value="10000000">10 000 000 FG</option>
-        <option value="20000000">20 000 000 FG</option>
-    </select>
-    <input required class="form-control" type="text" id="form-total-amount" placeholder="Montant à recevoir" readonly>
-    <input type="submit" value="Enregistrer">
-</form>
-
+            <input required class="form-control" type="text" id="form-investor-name" name="investorName" placeholder="Nom de l'investisseur">
+            <input required class="form-control" type="text" id="form-transaction-number" name="transactionNumber" placeholder="Numéro de transaction">
+            <select required name="network" id="formNetwork" class="form-select mb-2">
+                <option value="">---Choisir le réseau---</option>
+                <option value="ORANGEMONEY">ORANGEMONEY</option>
+                <option value="MTN">MTN</option>
+            </select>
+            <select required name="montantInvest" id="montantInvest" class="form-select mb-2">
+                <option value="">---Choisir le montant---</option>
+                <option value="1000000">1 000 000 FG</option>
+                <option value="2000000">2 000 000 FG</option>
+                <option value="3000000">3 000 000 FG</option>
+                <option value="4000000">4 000 000 FG</option>
+                <option value="5000000">5 000 000 FG</option>
+                <option value="10000000">10 000 000 FG</option>
+                <option value="20000000">20 000 000 FG</option>
+            </select>
+            <input required class="form-control" type="text" id="form-total-amount" placeholder="Montant à recevoir" readonly>
+            <input type="submit" value="Enregistrer">
+        </form>
     </div>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
     <script>
-        let code = prompt("Entrez le code fournis par Africa Investissement");
+        let code = prompt("Entrez le code fourni par Africa Investissement");
         if(code == "2021"){
             let montantIn = document.querySelector('#montantInvest');
             montantIn.addEventListener('change', () => {
-                let montantSelect = montantIn.options[montantIn.selectedIndex].innerText;
-                let montantInvest = montantSelect.replace('FG', '').replace(' ', '');
-                console.log(montantInvest);
-                if(montantInvest == 1000000){
-                    let montantRecevoir = document.querySelector('#form-total-amount')
-                    montantRecevoir.value = 5100000 + " FG"
-                }else if(montantInvest == 2000000){
-                    let montantRecevoir = document.querySelector('#form-total-amount')
-                    montantRecevoir.value = 9300000 + " FG"
-                }else if(montantInvest == 3000000){
-                    let montantRecevoir = document.querySelector('#form-total-amount')
-                    montantRecevoir.value = 13500000 + " FG"
-                }else if(montantInvest == 4000000){
-                    let montantRecevoir = document.querySelector('#form-total-amount')
-                    montantRecevoir.value = 17300000 + " FG"
-                }else if(montantInvest == 5000000){
-                    let montantRecevoir = document.querySelector('#form-total-amount')
-                    montantRecevoir.value = 22300000 + " FG"
-                }else if(montantInvest == 10000000){
-                    let montantRecevoir = document.querySelector('#form-total-amount')
-                    montantRecevoir.value = 44600000 + " FG"
-                }else if(montantInvest == 20000000){
-                    let montantRecevoir = document.querySelector('#form-total-amount')
-                    montantRecevoir.value = 85200000 + " FG"
+                let montantInvest = montantIn.value;
+                let montantRecevoir = document.querySelector('#form-total-amount');
+
+                if(montantInvest == "1000000"){
+                    montantRecevoir.value = "5 100 000 FG";
+                } else if(montantInvest == "2000000"){
+                    montantRecevoir.value = "9 300 000 FG";
+                } else if(montantInvest == "3000000"){
+                    montantRecevoir.value = "13 500 000 FG";
+                } else if(montantInvest == "4000000"){
+                    montantRecevoir.value = "17 300 000 FG";
+                } else if(montantInvest == "5000000"){
+                    montantRecevoir.value = "22 300 000 FG";
+                } else if(montantInvest == "10000000"){
+                    montantRecevoir.value = "44 600 000 FG";
+                } else if(montantInvest == "20000000"){
+                    montantRecevoir.value = "85 200 000 FG";
                 }
-            })
+            });
+
             document.getElementById('registration-form').addEventListener('submit', function(event) {
                 event.preventDefault(); // Empêche la soumission du formulaire
     
                 // Récupération des valeurs des champs
                 const investorName = document.getElementById('form-investor-name').value;
                 const transactionNumber = document.getElementById('form-transaction-number').value;
-                const network = document.getElementById('form-network').value;
+                const network = document.getElementById('formNetwork').value;
                 const totalAmount = document.getElementById('form-total-amount').value;
-                // const alertMessage = document.getElementById('form-alert-message').value;
-    
+
                 // Construction de l'URL avec les données saisies
                 const url = `Africa.html?investorName=${encodeURIComponent(investorName)}&transactionNumber=${encodeURIComponent(transactionNumber)}&network=${encodeURIComponent(network)}&totalAmount=${encodeURIComponent(totalAmount)}`;
     
                 // Redirection vers la première page avec les données dans l'URL
                 window.location.href = url;
             });
-        }else{
-            alert("Code incorrect")
+        } else {
+            alert("Code incorrect");
             location.reload();
         }
     </script>
