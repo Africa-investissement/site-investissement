@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -79,49 +79,43 @@
     </div>
 
     <script>
-        let code = prompt("Entrez le code fourni par Africa Investissement");
-        if(code == "2021"){
-            let montantIn = document.querySelector('#montantInvest');
-            montantIn.addEventListener('change', () => {
-                let montantInvest = montantIn.value;
-                let montantRecevoir = document.querySelector('#form-total-amount');
+        let montantIn = document.querySelector('#montantInvest');
+        montantIn.addEventListener('change', () => {
+            let montantInvest = montantIn.value;
+            let montantRecevoir = document.querySelector('#form-total-amount');
 
-                if(montantInvest == "1000000"){
-                    montantRecevoir.value = "5 100 000 FG";
-                } else if(montantInvest == "2000000"){
-                    montantRecevoir.value = "9 300 000 FG";
-                } else if(montantInvest == "3000000"){
-                    montantRecevoir.value = "13 500 000 FG";
-                } else if(montantInvest == "4000000"){
-                    montantRecevoir.value = "17 300 000 FG";
-                } else if(montantInvest == "5000000"){
-                    montantRecevoir.value = "22 300 000 FG";
-                } else if(montantInvest == "10000000"){
-                    montantRecevoir.value = "44 600 000 FG";
-                } else if(montantInvest == "20000000"){
-                    montantRecevoir.value = "85 200 000 FG";
-                }
-            });
+            if(montantInvest == "1000000"){
+                montantRecevoir.value = "5 100 000 FG";
+            } else if(montantInvest == "2000000"){
+                montantRecevoir.value = "9 300 000 FG";
+            } else if(montantInvest == "3000000"){
+                montantRecevoir.value = "13 500 000 FG";
+            } else if(montantInvest == "4000000"){
+                montantRecevoir.value = "17 300 000 FG";
+            } else if(montantInvest == "5000000"){
+                montantRecevoir.value = "22 300 000 FG";
+            } else if(montantInvest == "10000000"){
+                montantRecevoir.value = "44 600 000 FG";
+            } else if(montantInvest == "20000000"){
+                montantRecevoir.value = "85 200 000 FG";
+            }
+        });
 
-            document.getElementById('registration-form').addEventListener('submit', function(event) {
-                event.preventDefault(); // Empêche la soumission du formulaire
-    
-                // Récupération des valeurs des champs
-                const investorName = document.getElementById('form-investor-name').value;
-                const transactionNumber = document.getElementById('form-transaction-number').value;
-                const network = document.getElementById('formNetwork').value;
-                const totalAmount = document.getElementById('form-total-amount').value;
+        document.getElementById('registration-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêche la soumission du formulaire
 
-                // Construction de l'URL avec les données saisies
-                const url = `Africa.html?investorName=${encodeURIComponent(investorName)}&transactionNumber=${encodeURIComponent(transactionNumber)}&network=${encodeURIComponent(network)}&totalAmount=${encodeURIComponent(totalAmount)}`;
-    
-                // Redirection vers la première page avec les données dans l'URL
-                window.location.href = url;
-            });
-        } else {
-            alert("Code incorrect");
-            location.reload();
-        }
+            // Récupération des valeurs des champs
+            const investorName = document.getElementById('form-investor-name').value;
+            const transactionNumber = document.getElementById('form-transaction-number').value;
+            const network = document.getElementById('formNetwork').value;
+            const totalAmount = document.getElementById('form-total-amount').value;
+
+            // Construction de l'URL avec les données saisies
+            const url = `Africa.html?investorName=${encodeURIComponent(investorName)}&transactionNumber=${encodeURIComponent(transactionNumber)}&network=${encodeURIComponent(network)}&totalAmount=${encodeURIComponent(totalAmount)}`;
+
+            // Redirection vers la première page avec les données dans l'URL
+            window.location.href = url;
+        });
     </script>
 </body>
 </html>
