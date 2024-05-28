@@ -53,28 +53,27 @@
     <div class="form-container">
         <h2>Africa investissement</h2>
         <form id="registration-form" action="Africa.html" method="GET">
-            <input required class="form-control" type="text" id="form-investor-name" name="investorName" placeholder="Nom de l'investisseur"><br>
-            <input required class="form-control" type="text" id="form-transaction-number" name="transactionNumber" placeholder="Numéro de transaction"><br>
-            <select required name="" id="formNetwork" class="form-select mb-2">
-                <option value="">---Choisir le reseau---</option>
-                <option value="">ORANGEMONEY</option>
-                 <option value="">MTN</option>
-                 </select>
-            <select required name="" id="montantInvest" class="form-select mb-2">
-                <option value="">---Choisir le montant---</option>
-                <option value="">1 000 000 FG </option>
-                <option value="">2 000 000 FG </option>
-                <option value="">3 000 000 FG </option>
-                <option value="">4 000 000 FG </option>
-                <option value="">5 000 000 FG </option>
-                <option value="">10 000 000 FG </option>
-                <option value="">20 000 000 FG </option>
-            </select>
-            <input required class="form-control" type="text" class="form-control" id="form-total-amount" placeholder="montant a recevoir" readonly>
-            <!-- <input type="text" id="form-total-amount" name="totalAmount" placeholder="Montant total à recevoir"><br> -->
-            <!-- <textarea class="form-control" id="form-alert-message" name="alertMessage" placeholder="Message d'alerte"></textarea><br> -->
-            <input type="submit" value="Enregistrer">
-        </form>
+    <input required class="form-control" type="text" id="form-investor-name" name="investorName" placeholder="Nom de l'investisseur"><br>
+    <input required class="form-control" type="text" id="form-transaction-number" name="transactionNumber" placeholder="Numéro de transaction"><br>
+    <select required name="network" id="formNetwork" class="form-select mb-2">
+        <option value="">---Choisir le réseau---</option>
+        <option value="ORANGEMONEY">ORANGEMONEY</option>
+        <option value="MTN">MTN</option>
+    </select>
+    <select required name="montantInvest" id="montantInvest" class="form-select mb-2">
+        <option value="">---Choisir le montant---</option>
+        <option value="1000000">1 000 000 FG</option>
+        <option value="2000000">2 000 000 FG</option>
+        <option value="3000000">3 000 000 FG</option>
+        <option value="4000000">4 000 000 FG</option>
+        <option value="5000000">5 000 000 FG</option>
+        <option value="10000000">10 000 000 FG</option>
+        <option value="20000000">20 000 000 FG</option>
+    </select>
+    <input required class="form-control" type="text" id="form-total-amount" placeholder="Montant à recevoir" readonly>
+    <input type="submit" value="Enregistrer">
+</form>
+
     </div>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
