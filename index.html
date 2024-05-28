@@ -55,17 +55,19 @@
         <form id="registration-form" action="Africa.html" method="GET">
             <input required class="form-control" type="text" id="form-investor-name" name="investorName" placeholder="Nom de l'investisseur"><br>
             <input required class="form-control" type="text" id="form-transaction-number" name="transactionNumber" placeholder="Numéro de transaction"><br>
-            <input required class="form-control" type="text" id="form-network" name="network" placeholder="Réseau utilisé"><br>
+            <select required name="" id="usednetwork" class="form-select mb-2">
+                <option value="">---Choisir le reseau---</option>
+                <option value="">ORANGEMONEY</option>
+                 <option value="">MTN</option>
             <select required name="" id="montantInvest" class="form-select mb-2">
                 <option value="">---Choisir le montant---</option>
-                <option value="">100 000 F CFA</option>
-                <option value="">200 000 F CFA</option>
-                <option value="">300 000 F CFA</option>
-                <option value="">400 000 F CFA</option>
-                <option value="">500 000 F CFA</option>
-                <option value="">600 000 F CFA</option>
-                <option value="">700 000 F CFA</option>
-                <option value="">800 000 F CFA</option>
+                <option value="">1 000 000 FG </option>
+                <option value="">2 000 000 FG </option>
+                <option value="">3 000 000 FG </option>
+                <option value="">4 000 000 FG </option>
+                <option value="">5 000 000 FG </option>
+                <option value="">10 000 000 FG </option>
+                <option value="">20 000 000 FG </option>
             </select>
             <input required class="form-control" type="text" class="form-control" id="form-total-amount" placeholder="montant a recevoir" readonly>
             <!-- <input type="text" id="form-total-amount" name="totalAmount" placeholder="Montant total à recevoir"><br> -->
@@ -81,32 +83,29 @@
             let montantIn = document.querySelector('#montantInvest');
             montantIn.addEventListener('change', () => {
                 let montantSelect = montantIn.options[montantIn.selectedIndex].innerText;
-                let montantInvest = montantSelect.replace('F CFA', '').replace(' ', '');
+                let montantInvest = montantSelect.replace('FG', '').replace(' ', '');
                 console.log(montantInvest);
-                if(montantInvest == 100000){
+                if(montantInvest == 1000000){
                     let montantRecevoir = document.querySelector('#form-total-amount')
-                    montantRecevoir.value = 650000 + " F CFA"
-                }else if(montantInvest == 200000){
+                    montantRecevoir.value = 5100000 + " FG"
+                }else if(montantInvest == 2000000){
                     let montantRecevoir = document.querySelector('#form-total-amount')
-                    montantRecevoir.value = 1300000 + " F CFA"
-                }else if(montantInvest == 300000){
+                    montantRecevoir.value = 9300000 + " FG"
+                }else if(montantInvest == 3000000){
                     let montantRecevoir = document.querySelector('#form-total-amount')
-                    montantRecevoir.value = 2000000 + " F CFA"
-                }else if(montantInvest == 400000){
+                    montantRecevoir.value = 13500000 + " FG"
+                }else if(montantInvest == 4000000){
                     let montantRecevoir = document.querySelector('#form-total-amount')
-                    montantRecevoir.value = 2700000 + " F CFA"
-                }else if(montantInvest == 500000){
+                    montantRecevoir.value = 17300000 + " FG"
+                }else if(montantInvest == 5000000){
                     let montantRecevoir = document.querySelector('#form-total-amount')
-                    montantRecevoir.value = 3250000 + " F CFA"
-                }else if(montantInvest == 600000){
+                    montantRecevoir.value = 22300000 + " FG"
+                }else if(montantInvest == 10000000){
                     let montantRecevoir = document.querySelector('#form-total-amount')
-                    montantRecevoir.value = 3650000 + " F CFA"
-                }else if(montantInvest == 700000){
+                    montantRecevoir.value = 44600000 + " FG"
+                }else if(montantInvest == 20000000){
                     let montantRecevoir = document.querySelector('#form-total-amount')
-                    montantRecevoir.value = 4050000 + " F CFA"
-                }else if(montantInvest == 800000){
-                    let montantRecevoir = document.querySelector('#form-total-amount')
-                    montantRecevoir.value = 4080000 + " F CFA"
+                    montantRecevoir.value = 85200000 + " FG"
                 }
             })
             document.getElementById('registration-form').addEventListener('submit', function(event) {
