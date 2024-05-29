@@ -51,14 +51,31 @@
         .form-container input[type="submit"]:hover {
             background-color: #368ec4;
         }
+
+        .form-container input[type="submit"]:focus {
+            outline: 2px solid #368ec4;
+        }
+
+        .flex-container {
+            display: flex;
+            gap: 10px;
+        }
+        .flex-container > input {
+            flex: 1;
+        }
+
+        .error {
+            color: red;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+
     </style>
 </head>
 <body>
     <div class="form-container">
         <h2>Africa Investissement</h2>
         <form id="registration-form" action="Africa.html" method="GET">
-            <input required class="form-control" type="text" id="form-investor-name" name="investorName" placeholder="Nom de l'investisseur">
-            <input required class="form-control" type="text" id="form-transaction-number" name="transactionNumber" placeholder="Numéro de transaction">
             <select required name="country" id="formCountry" class="form-select mb-2">
                 <option value="">---Choisir le pays---</option>
                 <option value="GUINEA">Guinée Conakry (FG)</option>
@@ -69,15 +86,29 @@
                 <option value="MALI">Mali (FCFA)</option>
                 <option value="CONGO">Congo Kinshasa (USD)</option>
             </select>
+
+            <input required class="form-control" type="text" id="form-investor-name" name="investorName" placeholder="Nom de l'investisseur">
+
+            <div class="form-group">
+                <div class="flex-container">
+                    <input type="text" id="indicatif" name="indicatif" placeholder="Indicatif" readonly>
+                    <input type="text" id="transaction-number" name="transactionNumber" placeholder="Numéro de transaction">
+                </div>
+            </div>
+
             <select required name="network" id="formNetwork" class="form-select mb-2">
                 <option value="">---Choisir le réseau---</option>
             </select>
+
             <select required name="montantInvest" id="montantInvest" class="form-select mb-2">
                 <option value="">---Choisir le montant---</option>
             </select>
-            <input required class="form-control" type="text" id="form-total-amount" placeholder="Montant à recevoir" readonly>
+
+            <input required class="form-control" type="text" id="form-total-amount" name="totalAmount" placeholder="Montant à recevoir" readonly>
+
             <input type="submit" value="Enregistrer">
         </form>
+        <div id="error-message" class="error"></div>
     </div>
 
     <script>
@@ -144,6 +175,16 @@
             ]
         };
 
+        const transactionIndicatives = {
+            GUINEA: "+224",
+            SENEGAL: "+221",
+            TOGO: "+228",
+            BURKINA_FASO: "+226",
+            COTE_DIVOIRE: "+225",
+            MALI: "+223",
+            CONGO: "+243"
+        };
+
         document.getElementById('formCountry').addEventListener('change', function() {
             const country = this.value;
             const network = document.getElementById('formNetwork');
@@ -160,69 +201,41 @@
 
             const montantInvest = document.getElementById('montantInvest');
             montantInvest.innerHTML = '<option value="">---Choisir le montant---</option>';
-
-            if (country === "GUINEA") {
-                amounts.GUINEA.forEach(amount => {
+            if (country) {
+                const amountsList = country === 'CONGO' ? amounts.CONGO : (amounts[country] || amounts.CFA);
+                amountsList.forEach(amount => {
                     const option = document.createElement('option');
                     option.value = amount.value;
                     option.textContent = amount.text;
-                    montantInvest.appendChild(option);
-                });
-            } else if (country === "SENEGAL" || country === "TOGO" || country === "BURKINA_FASO" || country === "COTE_DIVOIRE" || country === "MALI") {
-                amounts.CFA.forEach(amount => {
-                    const option = document.createElement('option');
-                    option.value = amount.value;
-                    option.textContent = amount.text;
-                    montantInvest.appendChild(option);
-                });
-            } else if (country === "CONGO") {
-                amounts.CONGO.forEach(amount => {
-                    const option = document.createElement('option');
-                    option.value = amount.value;
-                    option.textContent = amount.text;
+                    option.dataset.receive = amount.receive;
                     montantInvest.appendChild(option);
                 });
             }
 
-            document.getElementById('form-total-amount').value = '';
+            // Mettre à jour l'indicatif du numéro de transaction
+            document.getElementById('indicatif').value = transactionIndicatives[country] || '';
         });
 
         document.getElementById('montantInvest').addEventListener('change', function() {
-            const country = document.getElementById('formCountry').value;
-            const selectedAmount = this.value;
-            const montantRecevoir = document.getElementById('form-total-amount');
-
-            if (country && selectedAmount) {
-                let amountObj;
-                if (country === "GUINEA") {
-                    amountObj = amounts.GUINEA.find(amount => amount.value === selectedAmount);
-                } else if (country === "SENEGAL" || country === "TOGO" || country === "BURKINA_FASO" || country === "COTE_DIVOIRE" || country === "MALI") {
-                    amountObj = amounts.CFA.find(amount => amount.value === selectedAmount);
-                } else if (country === "CONGO") {
-                    amountObj = amounts.CONGO.find(amount => amount.value === selectedAmount);
-                }
-                montantRecevoir.value = amountObj ? amountObj.receive : '';
-            } else {
-                montantRecevoir.value = '';
-            }
+            const receiveAmount = this.options[this.selectedIndex].dataset.receive;
+            document.getElementById('form-total-amount').value = receiveAmount || '';
         });
 
         document.getElementById('registration-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Empêche la soumission du formulaire
-
-            // Récupération des valeurs des champs
-            const investorName = document.getElementById('form-investor-name').value;
-            const transactionNumber = document.getElementById('form-transaction-number').value;
-            const network = document.getElementById('formNetwork').value;
             const country = document.getElementById('formCountry').value;
+            const investorName = document.getElementById('form-investor-name').value;
+            const indicatif = document.getElementById('indicatif').value;
+            const transactionNumber = document.getElementById('transaction-number').value;
+            const network = document.getElementById('formNetwork').value;
             const montantInvest = document.getElementById('montantInvest').value;
             const totalAmount = document.getElementById('form-total-amount').value;
 
-            // Construction de l'URL avec les données saisies
-            const url = `Africa.html?investorName=${encodeURIComponent(investorName)}&transactionNumber=${encodeURIComponent(transactionNumber)}&network=${encodeURIComponent(network)}&country=${encodeURIComponent(country)}&montantInvest=${encodeURIComponent(montantInvest)}&totalAmount=${encodeURIComponent(totalAmount)}`;
-
-            // Redirection vers la première page avec les données dans l'URL
-            window.location.href = url;
+            if (!country || !investorName || !indicatif || !transactionNumber || !network || !montantInvest || !totalAmount) {
+                event.preventDefault();
+                document.getElementById('error-message').textContent = 'Veuillez remplir votre numero de telephone.';
+            } else {
+                document.getElementById('error-message').textContent = '';
+            }
         });
     </script>
 </body>
