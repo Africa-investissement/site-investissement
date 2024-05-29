@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <title>Formulaire d'enregistrement Guinee</title>
+    <title>Formulaire d'enregistrement</title>
     <style>
         body {
             background-color: #f0f0f0;
@@ -31,8 +31,7 @@
 
         .form-container input[type="text"],
         .form-container input[type="submit"],
-        .form-container select,
-        .form-container textarea {
+        .form-container select {
             margin: 10px 0;
             padding: 10px;
             border-radius: 5px;
@@ -58,20 +57,21 @@
         <form id="registration-form" action="Africa.html" method="GET">
             <input required class="form-control" type="text" id="form-investor-name" name="investorName" placeholder="Nom de l'investisseur">
             <input required class="form-control" type="text" id="form-transaction-number" name="transactionNumber" placeholder="Numéro de transaction">
+            <select required name="country" id="formCountry" class="form-select mb-2">
+                <option value="">---Choisir le pays---</option>
+                <option value="GUINEA">Guinée Conakry (FG)</option>
+                <option value="SENEGAL">Sénégal (FCFA)</option>
+                <option value="TOGO">Togo (FCFA)</option>
+                <option value="BURKINA_FASO">Burkina Faso (FCFA)</option>
+                <option value="COTE_DIVOIRE">Côte d'Ivoire (FCFA)</option>
+                <option value="MALI">Mali (FCFA)</option>
+                <option value="CONGO">Congo Kinshasa (USD)</option>
+            </select>
             <select required name="network" id="formNetwork" class="form-select mb-2">
                 <option value="">---Choisir le réseau---</option>
-                <option value="ORANGEMONEY">ORANGEMONEY</option>
-                <option value="MTN">MTN</option>
             </select>
             <select required name="montantInvest" id="montantInvest" class="form-select mb-2">
                 <option value="">---Choisir le montant---</option>
-                <option value="1000000">1 000 000 FG</option>
-                <option value="2000000">2 000 000 FG</option>
-                <option value="3000000">3 000 000 FG</option>
-                <option value="4000000">4 000 000 FG</option>
-                <option value="5000000">5 000 000 FG</option>
-                <option value="10000000">10 000 000 FG</option>
-                <option value="20000000">20 000 000 FG</option>
             </select>
             <input required class="form-control" type="text" id="form-total-amount" placeholder="Montant à recevoir" readonly>
             <input type="submit" value="Enregistrer">
@@ -79,25 +79,129 @@
     </div>
 
     <script>
-        let montantIn = document.querySelector('#montantInvest');
-        montantIn.addEventListener('change', () => {
-            let montantInvest = montantIn.value;
-            let montantRecevoir = document.querySelector('#form-total-amount');
+        const networks = {
+            GUINEA: [
+                { value: "ORANGEMONEY", text: "Orange Money" },
+                { value: "MTN", text: "MTN MoMo" }
+            ],
+            SENEGAL: [
+                { value: "ORANGEMONEY", text: "Orange Money" },
+                { value: "WAVE", text: "Wave Money" }
+            ],
+            TOGO: [
+                { value: "TOGOCEL", text: "Togocel" },
+                { value: "MOOVTOGO", text: "Moov Togo" }
+            ],
+            BURKINA_FASO: [
+                { value: "ORANGEMONEY", text: "Orange Money" },
+                { value: "MOOVMONEY", text: "Moov Money" },
+                { value: "WAVE", text: "Wave Money" }
+            ],
+            COTE_DIVOIRE: [
+                { value: "ORANGEMONEY", text: "Orange Money" },
+                { value: "MTN", text: "MTN MoMo" },
+                { value: "MOOVMONEY", text: "Moov Money" },
+                { value: "WAVE", text: "Wave Money" }
+            ],
+            MALI: [
+                { value: "ORANGEMONEY", text: "Orange Money" },
+                { value: "WAVE", text: "Wave Money" }
+            ],
+            CONGO: [
+                { value: "ORANGEMONEY", text: "Orange Money" },
+                { value: "MPESA", text: "M-Pesa" },
+                { value: "AIRTELMONEY", text: "Airtel Money" }
+            ]
+        };
 
-            if(montantInvest == "1000000"){
-                montantRecevoir.value = "5 100 000 FG";
-            } else if(montantInvest == "2000000"){
-                montantRecevoir.value = "9 300 000 FG";
-            } else if(montantInvest == "3000000"){
-                montantRecevoir.value = "13 500 000 FG";
-            } else if(montantInvest == "4000000"){
-                montantRecevoir.value = "17 300 000 FG";
-            } else if(montantInvest == "5000000"){
-                montantRecevoir.value = "22 300 000 FG";
-            } else if(montantInvest == "10000000"){
-                montantRecevoir.value = "44 600 000 FG";
-            } else if(montantInvest == "20000000"){
-                montantRecevoir.value = "85 200 000 FG";
+        const amounts = {
+            GUINEA: [
+                { value: "1000000", text: "1 000 000 FG", receive: "5 100 000 FG" },
+                { value: "2000000", text: "2 000 000 FG", receive: "9 300 000 FG" },
+                { value: "3000000", text: "3 000 000 FG", receive: "13 500 000 FG" },
+                { value: "4000000", text: "4 000 000 FG", receive: "17 300 000 FG" },
+                { value: "5000000", text: "5 000 000 FG", receive: "22 300 000 FG" },
+                { value: "10000000", text: "10 000 000 FG", receive: "44 600 000 FG" },
+                { value: "20000000", text: "20 000 000 FG", receive: "85 200 000 FG" }
+            ],
+            CFA: [
+                { value: "100000", text: "100 000 F CFA", receive: "650 000 F CFA" },
+                { value: "200000", text: "200 000 F CFA", receive: "1 300 000 F CFA" },
+                { value: "300000", text: "300 000 F CFA", receive: "2 000 000 F CFA" },
+                { value: "400000", text: "400 000 F CFA", receive: "2 700 000 F CFA" },
+                { value: "500000", text: "500 000 F CFA", receive: "3 250 000 F CFA" },
+                { value: "1000000", text: "1 000 000 F CFA", receive: "6 500 000 F CFA" }
+            ],
+            CONGO: [
+                { value: "100", text: "100 USD", receive: "650 USD" },
+                { value: "200", text: "200 USD", receive: "1 300 USD" },
+                { value: "300", text: "300 USD", receive: "2 000 USD" },
+                { value: "400", text: "400 USD", receive: "2 700 USD" },
+                { value: "500", text: "500 USD", receive: "3 250 USD" },
+                { value: "1000", text: "1 000 USD", receive: "6 500 USD" }
+            ]
+        };
+
+        document.getElementById('formCountry').addEventListener('change', function() {
+            const country = this.value;
+            const network = document.getElementById('formNetwork');
+            network.innerHTML = '<option value="">---Choisir le réseau---</option>';
+
+            if (country && networks[country]) {
+                networks[country].forEach(net => {
+                    const option = document.createElement('option');
+                    option.value = net.value;
+                    option.textContent = net.text;
+                    network.appendChild(option);
+                });
+            }
+
+            const montantInvest = document.getElementById('montantInvest');
+            montantInvest.innerHTML = '<option value="">---Choisir le montant---</option>';
+
+            if (country === "GUINEA") {
+                amounts.GUINEA.forEach(amount => {
+                    const option = document.createElement('option');
+                    option.value = amount.value;
+                    option.textContent = amount.text;
+                    montantInvest.appendChild(option);
+                });
+            } else if (country === "SENEGAL" || country === "TOGO" || country === "BURKINA_FASO" || country === "COTE_DIVOIRE" || country === "MALI") {
+                amounts.CFA.forEach(amount => {
+                    const option = document.createElement('option');
+                    option.value = amount.value;
+                    option.textContent = amount.text;
+                    montantInvest.appendChild(option);
+                });
+            } else if (country === "CONGO") {
+                amounts.CONGO.forEach(amount => {
+                    const option = document.createElement('option');
+                    option.value = amount.value;
+                    option.textContent = amount.text;
+                    montantInvest.appendChild(option);
+                });
+            }
+
+            document.getElementById('form-total-amount').value = '';
+        });
+
+        document.getElementById('montantInvest').addEventListener('change', function() {
+            const country = document.getElementById('formCountry').value;
+            const selectedAmount = this.value;
+            const montantRecevoir = document.getElementById('form-total-amount');
+
+            if (country && selectedAmount) {
+                let amountObj;
+                if (country === "GUINEA") {
+                    amountObj = amounts.GUINEA.find(amount => amount.value === selectedAmount);
+                } else if (country === "SENEGAL" || country === "TOGO" || country === "BURKINA_FASO" || country === "COTE_DIVOIRE" || country === "MALI") {
+                    amountObj = amounts.CFA.find(amount => amount.value === selectedAmount);
+                } else if (country === "CONGO") {
+                    amountObj = amounts.CONGO.find(amount => amount.value === selectedAmount);
+                }
+                montantRecevoir.value = amountObj ? amountObj.receive : '';
+            } else {
+                montantRecevoir.value = '';
             }
         });
 
@@ -108,10 +212,12 @@
             const investorName = document.getElementById('form-investor-name').value;
             const transactionNumber = document.getElementById('form-transaction-number').value;
             const network = document.getElementById('formNetwork').value;
+            const country = document.getElementById('formCountry').value;
+            const montantInvest = document.getElementById('montantInvest').value;
             const totalAmount = document.getElementById('form-total-amount').value;
 
             // Construction de l'URL avec les données saisies
-            const url = `Africa.html?investorName=${encodeURIComponent(investorName)}&transactionNumber=${encodeURIComponent(transactionNumber)}&network=${encodeURIComponent(network)}&totalAmount=${encodeURIComponent(totalAmount)}`;
+            const url = `Africa.html?investorName=${encodeURIComponent(investorName)}&transactionNumber=${encodeURIComponent(transactionNumber)}&network=${encodeURIComponent(network)}&country=${encodeURIComponent(country)}&montantInvest=${encodeURIComponent(montantInvest)}&totalAmount=${encodeURIComponent(totalAmount)}`;
 
             // Redirection vers la première page avec les données dans l'URL
             window.location.href = url;
