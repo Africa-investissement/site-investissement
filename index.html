@@ -85,6 +85,7 @@
                 <option value="COTE_DIVOIRE">Côte d'Ivoire (FCFA)</option>
                 <option value="MALI">Mali (FCFA)</option>
                 <option value="CONGO">Congo Kinshasa (USD)</option>
+                <option value="CAMEROUN">Cameroun (FCFA)</option>
             </select>
 
             <input required class="form-control" type="text" id="form-investor-name" name="investorName" placeholder="Nom de l'investisseur">
@@ -144,6 +145,10 @@
                 { value: "ORANGEMONEY", text: "Orange Money" },
                 { value: "MPESA", text: "M-Pesa" },
                 { value: "AIRTELMONEY", text: "Airtel Money" }
+            ],
+            CAMEROUN: [
+                { value: "ORANGEMONEY", text: "Orange Money" },
+                { value: "MTN", text: "MTN MoMo" }
             ]
         };
 
@@ -163,7 +168,7 @@
                 { value: "300000", text: "300 000 F CFA", receive: "2 000 000 F CFA" },
                 { value: "400000", text: "400 000 F CFA", receive: "2 700 000 F CFA" },
                 { value: "500000", text: "500 000 F CFA", receive: "3 250 000 F CFA" },
-                { value: "1000000", text: "1 000 000 F CFA", receive: "90 500 000 F CFA" }
+                { value: "1000000", text: "1 000 000 F CFA", receive: "815 000 F CFA" }
             ],
             CONGO: [
                 { value: "100", text: "100 USD", receive: "650 USD" },
@@ -182,7 +187,8 @@
             BURKINA_FASO: "+226",
             COTE_DIVOIRE: "+225",
             MALI: "+223",
-            CONGO: "+243"
+            CONGO: "+243",
+            CAMEROUN: "+237"
         };
 
         document.getElementById('formCountry').addEventListener('change', function() {
@@ -232,7 +238,7 @@
 
             if (!country || !investorName || !indicatif || !transactionNumber || !network || !montantInvest || !totalAmount) {
                 event.preventDefault();
-                document.getElementById('error-message').textContent = 'Veuillez remplir votre numero de telephone.';
+                document.getElementById('error-message').textContent = 'Veuillez remplir tous les champs.';
             } else {
                 document.getElementById('error-message').textContent = '';
             }
