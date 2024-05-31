@@ -1,115 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interface de transfert</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        .background-image {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('./nano.png'); 
-            background-size: cover;
-            z-index: -1; 
-        }
-
-        body {
-            background-color: #000000;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100vw;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-        }
-
-        .interface {
-            text-align: center;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.5); 
-            color: #000000;
-            border-radius: 30px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-            max-width: 90%;
-            width: 600px;
-            z-index: 1;
-        }
-
-        .transfer-text {
-            font-size: 16px;
-            margin-bottom: 5px;
-            text-align: center;
-            display: block;
-        }
-
-        .progress-bar {
-            width: 100%;
-            max-width: 800px;
-            height: 20px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-            margin: 0 auto;
-        }
-
-        .progress {
-            height: 100%;
-            width: 0;
-            background-color: #2980b9;
-            border-radius: 10px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            transition: width 1s ease;
-            z-index: 1; 
-        }
-
-        .progress-percent {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2; 
-        }
-
-        .button {
-            background-color: #4da6e6;
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            display: inline-block;
-            margin: 10px;
-        }
-
-        .button:hover {
-            background-color: #368ec4;
-        }
-
-        .top-left-image {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 80px;
-            height: auto;
-            margin-top: 35px;
-        }
+        /* Ajoutez votre CSS ici */
     </style>
 </head>
 <body>
@@ -147,50 +43,56 @@
             <div class="transfer-text">Montant total à recevoir : ${totalAmount}</div>
         `;
 
-        let percent = parseInt(localStorage.getItem('progress')) || 0;
         const progressBar = document.querySelector('.progress');
         const progressPercent = document.querySelector('.progress-percent');
+        let percent = parseInt(localStorage.getItem('percent')) || 0;
         let interval;
+        const codeValid = localStorage.getItem('codeValid') === 'true';
 
-        function progress() {
-            if (percent < 100) {
+        function updateProgress() {
+            if (percent <= 99) {
                 progressBar.style.width = percent + '%';
                 progressPercent.textContent = percent + '%';
+                localStorage.setItem('percent', percent);
                 percent++;
-                localStorage.setItem('progress', percent);
             } else {
                 clearInterval(interval);
             }
 
-            if (percent == 97) {
-                document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme ' + investorName + ' Veuillez payer les frais de deblocage afin de valider votre transaction et recevoir immediatement vos benefices dans les 15 minutes.';
+            if (percent === 97) {
+                document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme ' + investorName + ' Veuillez payer les frais de déblocage afin de valider votre transaction et recevoir immédiatement vos bénéfices dans les 15 minutes.';
                 alert('Veillez payer les frais demander');
             }
         }
 
-        document.querySelector('#btn-deblock').addEventListener('click', () => {
-            let code2 = prompt("Veuillez entrer le code fourni par le directeur de l'entreprise");
-            if (code2 == "2120") {
-                interval = setInterval(progress, 3500);
-                document.querySelector('#invest').innerText = "En cours d'investissement...";
-                document.querySelector('#btn-deblock').style.display = 'none';
-                document.querySelector('#btn-receive').style.display = 'inline-block';
-            } else {
-                alert("Code incorrect");
-            }
-        });
+        if (codeValid) {
+            interval = setInterval(updateProgress, 6500);
+            document.querySelector('#invest').innerText = "En cours d'investissement...";
+            document.querySelector('#btn-deblock').style.display = 'none';
+            document.querySelector('#btn-receive').style.display = 'inline-block';
+        } else {
+            document.querySelector('#btn-deblock').addEventListener('click', () => {
+                let code2 = prompt("Veuillez entrer le code fourni par le directeur de l'entreprise");
+                if (code2 == "2120") {
+                    localStorage.setItem('codeValid', 'true');
+                    interval = setInterval(updateProgress, 6500);
+                    document.querySelector('#invest').innerText = "En cours d'investissement...";
+                    document.querySelector('#btn-deblock').style.display = 'none';
+                    document.querySelector('#btn-receive').style.display = 'inline-block';
+                } else {
+                    alert("Code incorrect");
+                }
+            });
+        }
 
         document.querySelector('#btn-receive').addEventListener('click', () => {
             alert('Veillez payer les frais demander');
         });
 
-        // Restore progress on page load
+        // Initialisation de la progression
         if (percent > 0) {
             progressBar.style.width = percent + '%';
             progressPercent.textContent = percent + '%';
-            if (percent < 100) {
-                interval = setInterval(progress, 15500);
-            }
         }
     </script>
 </body>
