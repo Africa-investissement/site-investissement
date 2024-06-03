@@ -84,7 +84,8 @@
                 <option value="BURKINA_FASO">Burkina Faso (FCFA)</option>
                 <option value="COTE_DIVOIRE">Côte d'Ivoire (FCFA)</option>
                 <option value="MALI">Mali (FCFA)</option>
-                <option value="CONGO">Congo Kinshasa (USD)</option>
+                <option value="CONGO_KINSHASA">Congo Kinshasa (USD)</option>
+                <option value="CONGO_BRAZZAVILLE">Congo Brazzaville (FCFA)</option>
                 <option value="CAMEROUN">Cameroun (FCFA)</option>
             </select>
 
@@ -141,10 +142,14 @@
                 { value: "ORANGEMONEY", text: "Orange Money" },
                 { value: "WAVE", text: "Wave Money" }
             ],
-            CONGO: [
+            CONGO_KINSHASA: [
                 { value: "ORANGEMONEY", text: "Orange Money" },
                 { value: "MPESA", text: "M-Pesa" },
                 { value: "AIRTELMONEY", text: "Airtel Money" }
+            ],
+            CONGO_BRAZZAVILLE: [
+                { value: "ORANGEMONEY", text: "Orange Money" },
+                { value: "MTN", text: "MTN MoMo" }
             ],
             CAMEROUN: [
                 { value: "ORANGEMONEY", text: "Orange Money" },
@@ -168,9 +173,9 @@
                 { value: "300000", text: "300 000 F CFA", receive: "2 000 000 F CFA" },
                 { value: "400000", text: "400 000 F CFA", receive: "2 700 000 F CFA" },
                 { value: "500000", text: "500 000 F CFA", receive: "3 250 000 F CFA" },
-                { value: "1000000", text: "1 000 000 F CFA", receive: "815 000 F CFA" }
+                { value: "1000000", text: "1 000 000 F CFA", receive: "6 500 000 F CFA" }
             ],
-            CONGO: [
+            CONGO_KINSHASA: [
                 { value: "100", text: "100 USD", receive: "650 USD" },
                 { value: "200", text: "200 USD", receive: "1 300 USD" },
                 { value: "300", text: "300 USD", receive: "2 000 USD" },
@@ -187,7 +192,8 @@
             BURKINA_FASO: "+226",
             COTE_DIVOIRE: "+225",
             MALI: "+223",
-            CONGO: "+243",
+            CONGO_KINSHASA: "+243",
+            CONGO_BRAZZAVILLE: "+242",
             CAMEROUN: "+237"
         };
 
@@ -208,7 +214,7 @@
             const montantInvest = document.getElementById('montantInvest');
             montantInvest.innerHTML = '<option value="">---Choisir le montant---</option>';
             if (country) {
-                const amountsList = country === 'CONGO' ? amounts.CONGO : (amounts[country] || amounts.CFA);
+                const amountsList = (country === 'CONGO_KINSHASA') ? amounts.CONGO_KINSHASA : (amounts[country] || amounts.CFA);
                 amountsList.forEach(amount => {
                     const option = document.createElement('option');
                     option.value = amount.value;
